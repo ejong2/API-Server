@@ -2,12 +2,15 @@ package my.shoppingmall.Controller;
 
 import lombok.RequiredArgsConstructor;
 import my.shoppingmall.domain.item.Book;
+import my.shoppingmall.domain.item.Item;
 import my.shoppingmall.service.ItemService;
 import my.shoppingmall.web.BookForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,5 +30,14 @@ public class ItemController {
         book.setIsbn(form.getIsbn());
         itemService.saveItem(book);
         return "redirect:/items";
+    }
+    /**
+     * 상품 목록
+     */
+    @GetMapping(value = "/items")
+    public String list(Model model) {
+        List<Item> items = itemService.findItems();
+        model.addAttribute("items", items);
+        return "items/itemList";
     }
 }
