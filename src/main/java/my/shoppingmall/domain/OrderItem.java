@@ -20,4 +20,12 @@ public class OrderItem {
     private Order order; //주문
     private int orderPrice; //주문 가격
     private int count; //주문 수량
+
+    public void cancel() {
+
+    }
+
+    public int getTotalPrice() {
+        return 0;
+    }
 }
