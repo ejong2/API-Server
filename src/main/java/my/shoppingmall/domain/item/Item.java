@@ -3,6 +3,7 @@ package my.shoppingmall.domain.item;
 import lombok.Getter;
 import lombok.Setter;
 import my.shoppingmall.domain.Category;
+import my.shoppingmall.exception.NotEnoughStockException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,8 +17,19 @@ public abstract class Item {
     @Id @GeneratedValue
     @Column(name = "item_id")
     private Long id;
-    private String name; private int price;
+    private String name;
+    private int price;
     private int stockQuantity;
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<Category>();
-}
+    //==비즈니스 로직==//
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+    public void removeStock(int quantity) {
+        int restStock = this.stockQuantity - quantity;
+        if (restStock < 0) {
+            throw new NotEnoughStockException("need more stock");
+        }
+        this.stockQuantity = restStock;
+    }}
